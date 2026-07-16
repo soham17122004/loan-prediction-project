@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Loan Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Loan Prediction System</h1>
+
+<form action="/predict" method="post">
+
+<input type="number" name="Gender" placeholder="Gender (0/1)" required>
+
+<input type="number" name="Married" placeholder="Married (0/1)" required>
+
+<input type="number" name="Dependents" placeholder="Dependents" required>
+
+<input type="number" name="Education" placeholder="Education (0/1)" required>
+
+<input type="number" name="Self_Employed" placeholder="Self Employed (0/1)" required>
+
+<input type="number" name="ApplicantIncome" placeholder="Applicant Income" required>
+
+<input type="number" name="CoapplicantIncome" placeholder="Coapplicant Income" required>
+
+<input type="number" name="LoanAmount" placeholder="Loan Amount" required>
+
+<input type="number" name="Loan_Amount_Term" placeholder="Loan Amount Term" required>
+
+<input type="number" name="Credit_History" placeholder="Credit History" required>
+
+<input type="number" name="Property_Area" placeholder="Property Area" required>
+
+<button type="submit">Predict</button>
+
+</form>
+
+{% if prediction %}
+
+<h2>{{ prediction }}</h2>
+
+{% endif %}
+
+</div>
+
+</body>
+
+</html>
