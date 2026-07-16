@@ -1,56 +1,208 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Prediction</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 </head>
-
 <body>
 
-<div class="container">
+<div class="stage">
 
-<h1>Loan Prediction System</h1>
+    <!-- LEFT: illustrated panel -->
+    <aside class="vault">
+        <div class="vault__inner">
+            <span class="vault__mark">Ledger&nbsp;No. 11</span>
 
-<form action="/predict" method="post">
+            <h1>Loan<br>Prediction</h1>
+            <p class="vault__sub">A quick read on an application, built from eleven data points — income, credit history, and the shape of the request.</p>
 
-<input type="number" name="Gender" placeholder="Gender (0/1)" required>
+            <div class="dial" aria-hidden="true">
+                <svg viewBox="0 0 240 240" class="dial__svg">
+                    <circle cx="120" cy="120" r="98" class="dial__track"/>
+                    <circle cx="120" cy="120" r="98" class="dial__progress" id="dialProgress"/>
+                    <circle cx="120" cy="120" r="72" class="dial__inner"/>
+                    <text x="120" y="112" class="dial__num" id="dialNum">00</text>
+                    <text x="120" y="136" class="dial__den">of 11</text>
+                </svg>
+            </div>
 
-<input type="number" name="Married" placeholder="Married (0/1)" required>
+            <ul class="vault__ticks">
+                <li><span>01</span>Applicant</li>
+                <li><span>02</span>Income &amp; Loan</li>
+                <li><span>03</span>Credit &amp; Property</li>
+            </ul>
+        </div>
 
-<input type="number" name="Dependents" placeholder="Dependents" required>
+        <svg class="vault__linework" viewBox="0 0 400 800" aria-hidden="true">
+            <path d="M-20 780 C 100 700, 120 500, 40 400 S -40 150, 60 20" />
+            <path d="M420 40 C 300 120, 340 320, 420 420 S 460 680, 340 800" />
+        </svg>
+    </aside>
 
-<input type="number" name="Education" placeholder="Education (0/1)" required>
+    <!-- RIGHT: form -->
+    <main class="sheet-wrap">
+        <form action="/predict" method="post" id="loan-form">
 
-<input type="number" name="Self_Employed" placeholder="Self Employed (0/1)" required>
+            <fieldset>
+                <legend>
+                    <span class="legend__icon">
+                        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </span>
+                    Applicant
+                </legend>
 
-<input type="number" name="ApplicantIncome" placeholder="Applicant Income" required>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="Gender">Gender</label>
+                        <select name="Gender" id="Gender" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
+                        </select>
+                    </div>
 
-<input type="number" name="CoapplicantIncome" placeholder="Coapplicant Income" required>
+                    <div class="field">
+                        <label for="Married">Marital status</label>
+                        <select name="Married" id="Married" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">Married</option>
+                            <option value="0">Not married</option>
+                        </select>
+                    </div>
 
-<input type="number" name="LoanAmount" placeholder="Loan Amount" required>
+                    <div class="field">
+                        <label for="Dependents">Dependents</label>
+                        <input type="number" min="0" name="Dependents" id="Dependents" placeholder="e.g. 2" required>
+                    </div>
 
-<input type="number" name="Loan_Amount_Term" placeholder="Loan Amount Term" required>
+                    <div class="field">
+                        <label for="Education">Education</label>
+                        <select name="Education" id="Education" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">Graduate</option>
+                            <option value="0">Not a graduate</option>
+                        </select>
+                    </div>
 
-<input type="number" name="Credit_History" placeholder="Credit History" required>
+                    <div class="field field--wide">
+                        <label for="Self_Employed">Employment</label>
+                        <select name="Self_Employed" id="Self_Employed" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">Self-employed</option>
+                            <option value="0">Employed / salaried</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
 
-<input type="number" name="Property_Area" placeholder="Property Area" required>
+            <fieldset>
+                <legend>
+                    <span class="legend__icon">
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M4 18V9M10 18V5M16 18v-7M22 18H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    Income &amp; Loan
+                </legend>
 
-<button type="submit">Predict</button>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="ApplicantIncome">Applicant income</label>
+                        <input type="number" min="0" name="ApplicantIncome" id="ApplicantIncome" placeholder="Monthly" required>
+                    </div>
 
-</form>
+                    <div class="field">
+                        <label for="CoapplicantIncome">Co-applicant income</label>
+                        <input type="number" min="0" name="CoapplicantIncome" id="CoapplicantIncome" placeholder="0 if none" required>
+                    </div>
 
-{% if prediction %}
+                    <div class="field">
+                        <label for="LoanAmount">Loan amount</label>
+                        <input type="number" min="0" name="LoanAmount" id="LoanAmount" placeholder="In thousands" required>
+                    </div>
 
-<h2>{{ prediction }}</h2>
+                    <div class="field">
+                        <label for="Loan_Amount_Term">Loan term</label>
+                        <input type="number" min="0" name="Loan_Amount_Term" id="Loan_Amount_Term" placeholder="Months, e.g. 360" required>
+                    </div>
+                </div>
+            </fieldset>
 
-{% endif %}
+            <fieldset>
+                <legend>
+                    <span class="legend__icon">
+                        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </span>
+                    Credit &amp; Property
+                </legend>
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="Credit_History">Credit history</label>
+                        <select name="Credit_History" id="Credit_History" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">Meets guidelines</option>
+                            <option value="0">Does not meet guidelines</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="Property_Area">Property area</label>
+                        <select name="Property_Area" id="Property_Area" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="2">Urban</option>
+                            <option value="1">Semiurban</option>
+                            <option value="0">Rural</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="submit-row">
+                <button type="submit">
+                    Assess application
+                    <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <span class="result__icon">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div>
+                <span class="result__label">Outcome</span>
+                <h2>{{ prediction }}</h2>
+            </div>
+        </div>
+        {% endif %}
+    </main>
 
 </div>
 
-</body>
+<script>
+    const form = document.getElementById('loan-form');
+    const fields = form.querySelectorAll('input, select');
+    const dialProgress = document.getElementById('dialProgress');
+    const dialNum = document.getElementById('dialNum');
+    const CIRC = 2 * Math.PI * 98;
+    dialProgress.style.strokeDasharray = CIRC;
 
+    function updateDial() {
+        let filled = 0;
+        fields.forEach(f => { if (f.value !== '') filled++; });
+        const pct = filled / fields.length;
+        dialProgress.style.strokeDashoffset = CIRC * (1 - pct);
+        dialNum.textContent = String(filled).padStart(2, '0');
+    }
+
+    fields.forEach(f => f.addEventListener('input', updateDial));
+    updateDial();
+</script>
+
+</body>
 </html>
